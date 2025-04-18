@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Performance</title>
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f5f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-x: auto;
+        }
+        h1 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        thead th {
+            background-color: #2e7d32;
+            color: #ffffff;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tbody tr:hover {
+            background-color: #e0f2e9;
+        }
+        tbody td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Performance Reviews</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Reviewer</th>
+                    <th>Rating</th>
+                    <th>Feedback</th>
+                    <th>Date</th>
+                    <th>Project</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="performance : ${performances}">
+                    <td th:text="${performance.reviewer}">Reviewer Name</td>
+                    <td th:text="${performance.rating}">Rating</td>
+                    <td th:text="${performance.feedback}">Feedback</td>
+                    <td th:text="${performance.date}">Date</td>
+                    <td th:text="${performance.projectId}">Project</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

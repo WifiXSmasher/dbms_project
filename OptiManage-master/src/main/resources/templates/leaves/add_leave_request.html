@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Leave Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #388E3C;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Add Leave Request</h1>
+    </header>
+    <div class="container">
+    
+        <div class="info">
+            <p>Remaining Paid Leaves: <span th:text="${20 - paidLeaveCount}">20</span></p>
+        </div>
+        <form th:action="@{/leave/request}" method="post">
+            <div class="form-group">
+                <label for="leaveType">Leave Type:</label>
+                <span th:text="${paidLeavesDone ? 'Unpaid' : 'Paid'}"></span>
+                <input 
+                    type="hidden" 
+                    id="leaveType" 
+                    name="leaveType" 
+                    th:value="${paidLeavesDone ? 'Unpaid' : 'Paid'}">
+            </div>
+            
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" required>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason:</label>
+                <textarea id="reason" name="reason" rows="4" required></textarea>
+            </div>
+            <button type="submit">Submit Leave Request</button>
+        </form>
+
+        <div class="dashboard-button">
+            <form th:action="@{/leave/requests}" method="get">
+                <button type="submit">Go to My Leaves</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Ensure start date is two days from now
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+
+            const today = new Date();
+            today.setDate(today.getDate() + 2); // Two days ahead
+            startDateInput.min = today.toISOString().split('T')[0];
+
+            startDateInput.addEventListener('change', function() {
+                const startDate = new Date(startDateInput.value);
+                startDate.setDate(startDate.getDate() + 1);
+                endDateInput.min = startDate.toISOString().split('T')[0];
+            });
+
+            // Check for authentication token in cookies
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const token = getCookie('token'); 
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                window.location.href = "/emp-login";
+                return;
+            }
+
+            // Axios instance with token in headers
+            const axiosInstance = axios.create({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // Test call to secure endpoint
+            axiosInstance.get('/emp-dashboard')
+                .then(response => {
+                    console.log("Dashboard data:", response.data);
+                })
+                .catch(error => {
+                    console.error("Authorization error:", error);
+                    alert("Session expired or unauthorized. Please log in again.");
+                    window.location.href = "/emp-login";
+                });
+        });
+    </script>
+</body>
+</html>

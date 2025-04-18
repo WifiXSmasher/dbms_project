@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Salary Slip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h2 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .salary-slip-container {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-weight: bold;
+            border-bottom: 2px solid #c8e6c9;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            color: #1b5e20;
+        }
+    </style>
+</head>
+<body>
+
+<div class="salary-slip-container">
+    <h2>Salary Slip</h2>
+    <table>
+        <tr>
+            <th>Employee ID</th>
+            <td><span th:text="${salary.empId}"></span></td>
+        </tr>
+        <tr>
+            <th>Base Salary</th>
+            <td><span th:text="${salary.baseSalary}"></span></td>
+        </tr>
+        <tr>
+            <th>HRA</th>
+            <td><span th:text="${salary.hra}"></span></td>
+        </tr>
+        <tr>
+            <th>Medical Allowance</th>
+            <td><span th:text="${salary.medicalAllowance}"></span></td>
+        </tr>
+        <tr>
+            <th>Travel Allowance</th>
+            <td><span th:text="${salary.travelAllowance}"></span></td>
+        </tr>
+        <tr>
+            <th>PF Deduction</th>
+            <td><span th:text="${salary.pfDeduction}"></span></td>
+        </tr>
+        <!-- Uncomment if Net Salary is available in the data -->
+        <!-- <tr>
+            <th>Net Salary</th>
+            <td><span th:text="${salary.netSalary}"></span></td>
+        </tr> -->
+    </table>
+
+    <a href="/employee/list" class="back-link">Back to Employee List</a>
+</div>
+
+</body>
+</html>

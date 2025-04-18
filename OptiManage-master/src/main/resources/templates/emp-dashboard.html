@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            margin-bottom: 15px;
+        }
+        .card a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .card a:hover {
+            color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, Employee</h1>
+        <p>ID: <span th:text="${employeeId != null ? employeeId : 'No ID available'}"></span></p>
+        <a th:href="@{/employees/update}">Update Profile</a>
+        <!-- Display success message if available -->
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div>
+            <a th:href="@{/logout}" class="nav-link">
+                <i class="bx bx-log-out icon"></i>
+                <span class="link">Logout</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            
+
+            <!-- Request Leave -->
+            <div class="card">
+                <h3>Request Leave</h3>
+                <a href="#">Request Leave</a>
+            </div>
+
+            <!-- My Leaves -->
+            <div class="card">
+                <h3>My Leaves</h3>
+                <a th:href="@{/leave/requests}">View My Leaves</a>
+            </div>
+
+
+            <div class="card" th:if="${hasReportees}">
+                <h3>Manage Reportees' Leave Requests</h3>
+                <a th:href="@{/leave/request/all2}">Go to Leave Requests</a>
+            </div>
+
+            <!-- Projects -->
+            <div class="card">
+                <h3>Grade Performance</h3>
+                <a th:href="@{/employee/projects}">Grading</a>
+            </div>
+
+            <!-- Projects -->
+            <div class="card">
+                <h3>My Projects</h3>
+                <a th:href="@{/employee/showprojects}">View All Projects</a>
+            </div>
+
+            <!-- Profile -->
+            <div class="card">
+                <h3>Profile</h3>
+                <a th:href="@{/profile}">View Profile</a>
+            </div>
+
+            <!-- Salary Slip -->
+            <div class="card" th:if="${departmentId != 1}">
+                <h3>Salary Slip</h3>
+                <a th:href="@{/employee/{id}/salary-slip(id=${employeeId})}">Download Salary Slip</a>
+            </div>
+
+            <div class="card" th:if="${departmentId == 1}">
+                <h3>Generate Salary Slip</h3>
+                <a th:href="@{/employee/list}">Generate Salary Slip</a>
+            </div>
+  
+            <!-- Performance Review -->
+            <div class="card">
+                <h3>Performance Review</h3>
+                <a th:href="@{/performance/view}">View Performance</a>
+            </div>
+
+            
+            
+
+            <!-- Notifications -->
+            <div class="card">
+                <h3>Notifications</h3>
+                <a th:href="@{/notifications}">View Notifications</a>
+            </div>
+
+            <div class="card" th:if="${departmentId == 1}">
+                <h3>Generate Salary Slip</h3>
+                <a th:href="@{/employee/list}">Generate Salary Slip</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="src\main\resources\static\js\axiosConfig.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to get cookie value by name
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const token = getCookie('token'); // Change to 'token' for the cookie name
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                window.location.href = "/emp-login";
+                return;
+            }
+
+            // Create an Axios instance and set Authorization header
+            const axiosInstance = axios.create({
+                headers: {
+                    'Authorization':   `Bearer ${token}`
+                }
+            });
+
+            // Example of using axiosInstance for a secure request
+            axiosInstance.get('/emp-dashboard')
+                .then(response => {
+                    console.log("Dashboard data:", response.data);
+                    // Populate dashboard data
+                })
+                .catch(error => {
+                    console.error("Authorization error:", error);
+                    alert("Session expired or unauthorized. Please log in again.");
+                    window.location.href = "/emp-login";
+                });
+        });
+    </script>
+
+</html>

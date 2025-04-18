@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Performance Evaluation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="number"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .form-container input[type="hidden"] {
+            display: none;
+        }
+
+        .form-container hr {
+            margin: 30px 0;
+            border: 0;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Performance Evaluation for Employee ID: <span th:text="${performance.reviewee}"></span></h1>
+
+        <form th:action="@{/performance/save}" th:object="${performance}" method="post">
+            <!-- Hidden fields for reviewee, reviewer, and date -->
+            <input type="hidden" th:field="*{reviewee}" />
+            <input type="hidden" th:field="*{reviewer}" />
+            <input type="hidden" th:field="*{date}" />
+            <input type="hidden" th:field="*{projectId}" />
+
+            <!-- Rating field -->
+            <label for="rating">Rating (1 to 5):</label>
+            <input type="number" th:field="*{rating}" min="1" max="5" required />
+
+            <!-- Feedback field -->
+            <label for="feedback">Feedback:</label>
+            <textarea th:field="*{feedback}" required></textarea>
+
+            <!-- Submit button -->
+            <button type="submit">Submit Evaluation</button>
+        </form>
+    </div>
+
+</body>
+</html>

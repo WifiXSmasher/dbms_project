@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Scheduled Meetings</title>
+</head>
+<body>
+    <h1>Scheduled Meetings</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Meeting ID</th>
+                <th>Client Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="meeting : ${scheduledMeetings}">
+                <td th:text="${meeting.meetingId}"></td>
+                <td th:text="${meeting.clientId}"></td> <!-- Ideally you would join with the client to get the name -->
+                <td th:text="${meeting.meetingDate}"></td>
+                <td th:text="${meeting.meetingTime}"></td>
+                <td th:text="${meeting.meetingStatus}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

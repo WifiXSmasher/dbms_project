@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f5e9; /* Light green background */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32; /* Dark green for the header */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #c8e6c9; /* Light green border */
+        }
+
+        th {
+            background-color: #a5d6a7; /* Light green header */
+            color: #fff; /* White text */
+        }
+
+        tr:hover {
+            background-color: #c8e6c9; /* Slightly darker green on hover */
+        }
+
+        /* Style for the notification message */
+        .notification-message {
+            padding: 10px;
+            border: 1px solid #a5d6a7; /* Border around the message */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #f9fbe7; /* Light background for messages */
+            margin: 5px 0; /* Space between messages */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Notifications</h1>
+
+    <div>
+        <!-- Iterate over each notification -->
+        <div th:each="notification : ${notifications}">
+            <div class="notification-message">
+                <strong th:text="${notification.notif}"></strong> <!-- Notification message -->
+                <br/>
+                <span th:text="${(notification.createdAt)}">Default Text</span>
+                <!-- <span th:text="${#dates.format(notification.createdAt, 'yyyy-MM-dd HH:mm')}">Default Text</span> -->
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

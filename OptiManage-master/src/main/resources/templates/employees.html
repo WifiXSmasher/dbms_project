@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Management</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
+    <style>
+        /* General page styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e8f5e9;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #2e7d32;
+            color: #fff;
+            padding: 15px 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-icon {
+            margin-right: 10px;
+        }
+
+        .add-emp-btn {
+            background-color: #66bb6a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-emp-btn:hover {
+            background-color: #43a047;
+        }
+
+        .sidebar {
+            background-color: #43a047;
+            padding: 20px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: 100%;
+            width: 220px;
+            color: white;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .logo-name {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar .list {
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .nav-link:hover {
+            color: #c8e6c9;
+        }
+
+        .sidebar .icon {
+            margin-right: 10px;
+        }
+
+        /* Main content styling */
+        main {
+            margin-left: 240px;
+            margin-top: 100px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        h2 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form input {
+            padding: 10px;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .search-form button {
+            background-color: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .search-form button:hover {
+            background-color: #388e3c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border: 1px solid #c8e6c9;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #66bb6a;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f1f8e9;
+        }
+
+        table tr:hover {
+            background-color: #e0f2f1;
+        }
+
+        a {
+            color: #388e3c;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="header-container">
+            <a href="/register">
+                <button class="add-emp-btn">Add Emp</button>
+            </a>
+            <!-- <div>
+                <p>Welcome!</p>
+                <li class="list">
+                    <a th:href="@{/logout}" class="nav-link">
+                        <i class="bx bx-log-out icon"></i>
+                        <span class="link">Logout</span>
+                    </a>
+                </li>
+            </div> -->
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- Search form -->
+            <form th:action="@{/employees/search}" method="get" class="search-form">
+                <input type="text" name="keyword" placeholder="Search by name..." />
+                <button type="submit">Search</button>
+            </form>
+
+            <!-- Display Employee List -->
+            <h2>Employee List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Iterate through employees and display in table -->
+                    <tr th:each="emp : ${emp}">
+                        <td th:text="${emp.id}"></td>
+                        <td th:text="${emp.firstName}"></td>
+                        <td th:text="${emp.lastName}"></td>
+                        <td th:text="${emp.email}"></td>
+                        <td th:text="${emp.contactNumber}"></td>
+                        <td th:text="${emp.deptId}"></td>
+                        <td>
+                            <a th:href="@{'/edit/' + ${emp.id}}">Edit</a> |
+                            <a th:href="@{'/delete/' + ${emp.id}}">Delete</a> |
+                            <a th:href="@{'employees/promote/' + ${emp.id}}">Promote</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+
+</html>

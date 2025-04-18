@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Investor List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        a {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 15px;
+            background-color: #5cb85c; /* Green color for the button */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #4cae4c; /* Darker green on hover */
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #5bc0de; /* Light blue for header */
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; /* Light gray for hover effect */
+        }
+
+        td a {
+            color: #d9534f; /* Red color for actions */
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Investor List</h1>
+    <a href="/investors/add">Add New Investor</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="investor : ${investors}">
+                <td th:text="${investor.investorId}"></td>
+                <td th:text="${investor.firstName}"></td>
+                <td th:text="${investor.lastName}"></td>
+                <td th:text="${investor.emailAddress}"></td>
+                <td>
+                    <a th:href="@{/investors/edit/{id}(id=${investor.investorId})}">Edit</a>
+                    <a th:href="@{/investors/confirm/{id}(id=${investor.investorId})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

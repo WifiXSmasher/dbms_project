@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employees Involved in Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            color: #2e7d32; /* Green color */
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2e7d32; /* Green color */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light gray for even rows */
+        }
+
+        tr:hover {
+            background-color: #e0e0e0; /* Slightly darker gray on hover */
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #2e7d32; /* Green color */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        a.button:hover {
+            background-color: #388e3c; /* Darker green */
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #2e7d32;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background-color: #388e3c;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Employees Involved in Project ID: <span th:text="${projectId}"></span></h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>First Name</th>
+                <th>Role</th>
+                <th>Action</th> <!-- New column for the button -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.firstName}"></td>
+                <td th:text="${employee.role}"></td>
+                <td>
+                    <!-- Button linking to performance page -->
+                    <a th:href="@{/performance/{revieweeId}/review(reviewerId=${leadId}, revieweeId=${employee.id}, projectId=${projectId})}" 
+                       class="button">Performance</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div><a href="/emp-dashboard" class="back-link">Back to Dashboard</a></div> <!-- Optional back link -->
+</body>
+</html>

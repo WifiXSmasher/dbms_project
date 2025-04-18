@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Profile</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f9f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px; /* Ensure form is responsive and doesn't stretch too wide */
+            width: 100%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32; /* Green color */
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="date"], select {
+            background-color: #fafafa;
+        }
+
+        button {
+            background-color: #2e7d32;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #388e3c;
+        }
+
+        /* Styling for the back link */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #2e7d32;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Your Profile</h1>
+        <form th:action="@{/employees/update}" 
+              th:object="${employeeUpdateDTO}" 
+              method="post">
+            
+            <label for="firstName">First Name:</label>
+            <input type="text" th:field="*{firstName}" /><br>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" th:field="*{lastName}" /><br>
+
+            <label for="address">Address:</label>
+            <input type="text" th:field="*{address}" /><br>
+
+            <label for="email">Email:</label>
+            <input type="email" th:field="*{email}" /><br>
+
+            <label for="contactNumber">Contact Number:</label>
+            <input type="text" th:field="*{contactNumber}" /><br>
+
+            <label for="bankAccountNumber">Bank Account Number:</label>
+            <input type="text" th:field="*{bankAccountNumber}" /><br>
+
+            <label for="password">Password:</label>
+            <input type="password" th:field="*{password}" /><br>
+
+            <label for="gender">Gender:</label>
+            <select th:field="*{gender}">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select><br>
+
+            <label for="emergencyContact">Emergency Contact:</label>
+            <input type="text" th:field="*{emergencyContact}" /><br>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" th:field="*{dob}" /><br>
+
+            <button type="submit">Update Profile</button>
+        </form>
+
+        <a href="/emp-dashboard" class="back-link">Back to Dashboard</a>
+    </div>
+</body>
+</html>

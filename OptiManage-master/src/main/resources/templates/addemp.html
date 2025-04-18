@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Registration</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<nav>
+    <div class="logo">
+        <i class="bx bx-menu menu-icon"></i>
+        <span class="logo-name">Employee Management</span>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <ul class="lists">
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-home-alt icon"></i>
+                        <span class="link">Dashboard</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-bar-chart-alt-2 icon"></i>
+                        <span class="link">Revenue</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-bell icon"></i>
+                        <span class="link">Notifications</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-message-rounded icon"></i>
+                        <span class="link">Messages</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-pie-chart-alt-2 icon"></i>
+                        <span class="link">Analytics</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-heart icon"></i>
+                        <span class="link">Likes</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-folder-open icon"></i>
+                        <span class="link">Files</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="bottom-content">
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-cog icon"></i>
+                        <span class="link">Settings</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="#" class="nav-link">
+                        <i class="bx bx-log-out icon"></i>
+                        <span class="link">Logout</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div th:if="${message}" style="color: green;">
+    <p th:text="${message}"></p>
+</div>
+
+<form action="#" th:action="@{/employees/confirm}" method="post">
+    <div class="title">Welcome</div>
+    <div class="subtitle">Let's create your account!</div>
+    
+    <div class="input-container ic1">
+        <input id="firstname" name="firstName" class="input" type="text" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="firstname" class="placeholder">First Name</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="lastname" name="lastName" class="input" type="text" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="lastname" class="placeholder">Last Name</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="address" name="address" class="input" type="text" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="address" class="placeholder">Address</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="email" name="email" class="input" type="email" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="email" class="placeholder">Email</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="salary" name="salary" class="input" type="number" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="salary" class="placeholder">Salary</label>
+    </div>
+
+    <div class="input-container ic2">
+        <label for="deptId" class="placeholder">Department ID</label>
+        <select id="deptId" name="deptId" class="input" required>
+            <option value="" disabled selected>Select Department</option>
+            <th:block th:each="department : ${departments}">
+                <option th:value="${department.deptId}" th:text="${department.deptId}"></option>
+            </th:block>
+        </select>
+        <div class="cut"></div>
+    </div>
+    
+
+    <div class="input-container ic2">
+        <input id="contactNumber" name="contactNumber" class="input" type="tel" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="contactNumber" class="placeholder">Contact Number</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="dob" name="dob" class="input" type="datetime-local" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="dob" class="placeholder">Date of Birth</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="username" name="username" class="input" type="text" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="username" class="placeholder">Username</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="password" name="password" class="input" type="password" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="password" class="placeholder">Password</label>
+    </div>
+
+    <div class="input-container ic2">
+        <label for="gender" class="placeholder">Gender</label>
+        <select id="gender" name="gender" class="input" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <div class="cut"></div>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="role" name="role" class="input" type="text" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="role" class="placeholder">Role</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="emergencyContact" name="emergencyContact" class="input" type="tel" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="emergencyContact" class="placeholder">Emergency Contact</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="age" name="age" class="input" type="number" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="age" class="placeholder">Age</label>
+    </div>
+
+    <div class="input-container ic2">
+        <input id="reportsTo" name="reportsTo" class="input" type="number" placeholder=" " required />
+        <div class="cut"></div>
+        <label for="reportsTo" class="placeholder">reportsTo</label>
+    </div>
+    <button type="submit" class="submit">Submit</button>
+</form>
+
+<section class="overlay"></section>
+
+<script src="script.js"></script>
+</body>
+</html>

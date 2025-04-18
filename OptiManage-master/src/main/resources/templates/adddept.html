@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Department</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add New Department</h1>
+    <form action="/departments/save" method="post" th:object="${department}">
+        <label for="dname">Department Name:</label>
+        <input type="text" id="dname" th:field="*{dname}" required>
+
+        <label for="estDate">Establishment Date:</label>
+        <input type="date" id="estDate" th:field="*{estDate}">
+
+        <label for="contactDetail">Contact Detail:</label>
+        <input type="text" id="contactDetail" th:field="*{contactDetail}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required>
+
+        <label for="hodId">Head of Department:</label>
+        <select id="hodId" th:field="*{hodId}">
+            <option value="">Select HOD</option>
+            <th:block th:each="employee : ${employees}">
+                <option th:value="${employee.id}" th:text="${employee.id}"></option>
+            </th:block>
+        </select>
+
+        <input type="submit" value="Add Department">
+    </form>
+    <a href="/departments">Back to Departments</a>
+</body>
+</html>

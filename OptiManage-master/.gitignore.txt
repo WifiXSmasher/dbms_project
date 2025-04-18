@@ -1,0 +1,22 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Eclipse
+.project
+.classpath
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+*.jar
+*.war
+
+# Maven
+target/

@@ -1,0 +1,14 @@
+create a database from root
+grant all the priveleges on the databses to the new user made foor this
+
+
+connection to database
+
+
+
+dbmsproj2--- for what is in master
+
+
+
+to run the porject with wrapper --./mvnw spring-boot:run
+./mvnw clean package

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Profile</title>
+    <style>
+        /* General body style */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9; /* Light background */
+            margin: 0;
+            padding: 0;
+            color: #2e7d32; /* Dark green text */
+        }
+
+        /* Header style */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Profile container */
+        .container {
+            margin: 20px auto;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Profile title */
+        h1 {
+            color: #1b5e20;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Style for each profile info section */
+        .profile-item {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .profile-item strong {
+            color: #388e3c;
+        }
+
+        .profile-item span {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        /* User photo style */
+        .user-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 3px solid #4CAF50;
+        }
+
+        /* Card effect on hover */
+        .container:hover {
+            transform: translateY(-5px);
+            transition: transform 0.2s ease;
+        }
+
+        /* Logout link style */
+        .logout-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #4CAF50;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logout-link:hover {
+            color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Employee Profile</h1>
+    </header>
+
+    <div class="container">
+        <!-- User photo with a placeholder -->
+        <img src="static\profile.jpg" alt="User Photo" class="user-photo" />
+
+        <p class="profile-item"><strong>Employee ID:</strong> <span th:text="${employee.id}">12345</span></p>
+        <p class="profile-item"><strong>First Name:</strong> <span th:text="${employee.firstName}">John</span></p>
+        <p class="profile-item"><strong>Last Name:</strong> <span th:text="${employee.lastName}">Doe</span></p>
+        <p class="profile-item"><strong>Address:</strong> <span th:text="${employee.address}">123 Main St.</span></p>
+        <p class="profile-item"><strong>Email:</strong> <span th:text="${employee.email}">johndoe@example.com</span></p>
+        <p class="profile-item"><strong>Salary:</strong> <span th:text="${employee.salary}">$50,000</span></p>
+        <p class="profile-item"><strong>Department ID:</strong> <span th:text="${employee.deptId}">D001</span></p>
+        <p class="profile-item"><strong>Date of Birth:</strong> <span th:text="${employee.dob}">1990-01-01</span></p>
+        <p class="profile-item"><strong>Username:</strong> <span th:text="${employee.username}">johndoe</span></p>
+        <p class="profile-item"><strong>Gender:</strong> <span th:text="${employee.gender}">Male</span></p>
+        <p class="profile-item"><strong>Role:</strong> <span th:text="${employee.role}">Manager</span></p>
+        <p class="profile-item"><strong>Emergency Contact:</strong> <span th:text="${employee.emergencyContact}">123-456-7890</span></p>
+        <p class="profile-item"><strong>Age:</strong> <span th:text="${employee.age}">34</span></p>
+
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
+
+</body>
+<script src="src\main\resources\static\js\axiosConfig.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to get cookie value by name
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const token = getCookie('token'); // Change to 'token' for the cookie name
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                window.location.href = "/emp-login";
+                return;
+            }
+
+            // Create an Axios instance and set Authorization header
+            const axiosInstance = axios.create({
+                headers: {
+                    'Authorization':   `Bearer ${token}`
+                }
+            });
+
+            // Example of using axiosInstance for a secure request
+            axiosInstance.get('/emp-dashboard')
+                .then(response => {
+                    console.log("Dashboard data:", response.data);
+                    // Populate dashboard data
+                })
+                .catch(error => {
+                    console.error("Authorization error:", error);
+                    alert("Session expired or unauthorized. Please log in again.");
+                    window.location.href = "/emp-login";
+                });
+        });
+    </script>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Employee</title>
+</head>
+<body>
+    <h1>Confirm Your Details</h1>
+    <form action="#" th:action="@{/employees}" method="post">
+        <p>First Name: <span th:text="${employee.firstName}"></span></p>
+        <p>Last Name: <span th:text="${employee.lastName}"></span></p>
+        <p>Address: <span th:text="${employee.address}"></span></p>
+        <p>Email: <span th:text="${employee.email}"></span></p>
+        <p>Salary: <span th:text="${employee.salary}"></span></p>
+        <p>Department ID: <span th:text="${employee.deptId}"></span></p>
+        <p>Contact Number: <span th:text="${employee.contactNumber}"></span></p>
+        <p>Date of Birth: <span th:text="${#dates.format(employee.dob, 'yyyy-MM-dd')}"></span></p>
+        <p>Username: <span th:text="${employee.username}"></span></p>
+        <p>Password: <span th:text="${employee.password}"></span></p>
+        <p>Gender: <span th:text="${employee.gender}"></span></p>
+        <p>Role: <span th:text="${employee.role}"></span></p>
+        <p>Emergency Contact: <span th:text="${employee.emergencyContact}"></span></p>
+        <p>Age: <span th:text="${employee.age}"></span></p>
+
+        <input type="hidden" th:name="firstName" th:value="${employee.firstName}" />
+        <input type="hidden" th:name="lastName" th:value="${employee.lastName}" />
+        <input type="hidden" th:name="address" th:value="${employee.address}" />
+        <input type="hidden" th:name="email" th:value="${employee.email}" />
+        <input type="hidden" th:name="salary" th:value="${employee.salary}" />
+        <input type="hidden" th:name="deptId" th:value="${employee.deptId}" />
+        <input type="hidden" th:name="contactNumber" th:value="${employee.contactNumber}" />
+        <input type="hidden" th:name="dob" th:value="${#dates.format(employee.dob, 'yyyy-MM-dd')}" />
+        <input type="hidden" th:name="username" th:value="${employee.username}" />
+        <input type="hidden" th:name="password" th:value="${employee.password}" />
+        <input type="hidden" th:name="gender" th:value="${employee.gender}" />
+        <input type="hidden" th:name="role" th:value="${employee.role}" />
+        <input type="hidden" th:name="emergencyContact" th:value="${employee.emergencyContact}" />
+        <input type="hidden" th:name="age" th:value="${employee.age}" />
+
+        <button type="submit">Confirm and Submit</button>
+        <!-- <a href="/employees">Edit</a> -->
+    </form>
+</body>
+</html>

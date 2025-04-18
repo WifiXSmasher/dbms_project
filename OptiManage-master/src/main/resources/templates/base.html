@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title}">Base Page</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/styles.css" />
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <i class="bx bx-menu menu-icon"></i>
+            <span class="logo-name">CodingLab</span>
+            <a href="/addemp" class="addemp">add employee</a>
+        </div>
+        <div class="sidebar">
+            <!-- Sidebar content -->
+        </div>
+    </nav>
+
+    <main>
+        <!-- Main content -->
+        <div th:replace="fragments/content :: content"></div>
+    </main>
+
+    <section class="overlay"></section>
+
+    <script src="/script.js"></script>
+</body>
+</html>

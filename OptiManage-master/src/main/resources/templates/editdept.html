@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Department</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2d6a4f; /* Green color */
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px 0;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #2d6a4f; /* Green color */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1d4f35; /* Darker green */
+        }
+
+        a {
+            text-decoration: none;
+            color: #2d6a4f; /* Green color */
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #1d4f35; /* Darker green on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Edit Department</h1>
+    <form action="/departments/update" method="post" th:object="${department}">
+        <input type="hidden" th:field="*{deptId}" />
+
+        <label for="dname">Department Name:</label>
+        <input type="text" id="dname" th:field="*{dname}" required>
+
+        <label for="estDate">Establishment Date:</label>
+        <input type="date" id="estDate" th:field="*{estDate}">
+
+        <label for="contactDetail">Contact Detail:</label>
+        <input type="text" id="contactDetail" th:field="*{contactDetail}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required>
+
+        <label for="hodId">Head of Department:</label>
+        <select id="hodId" th:field="*{hodId}">
+            <option value="">Select HOD</option>
+            <th:block th:each="employee : ${employees}">
+                <option th:value="${employee.id}" th:text="${employee.id}"
+                    th:selected="${employee.id == department.hodId}"></option>
+            </th:block>
+        </select>
+
+        <input type="submit" value="Update Department">
+    </form>
+    <a href="/departments">Back to Departments</a>
+</body>
+
+</html>

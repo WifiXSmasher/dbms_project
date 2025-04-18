@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Salary Slip</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; }
+        h2 { text-align: center; }
+        .details, .income, .deductions { margin-bottom: 15px; }
+        .details label, .income label, .deductions label { font-weight: bold; display: block; }
+        .row { display: flex; justify-content: space-between; }
+        .total { font-weight: bold; }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Salary Slip</h2>
+    <div class="details">
+        <div class="row"><label>Employee Name:</label> <span th:text="${employee.firstName} + ' ' + ${employee.lastName}"></span></div>
+        <div class="row"><label>Employee ID:</label> <span th:text="${employee.id}"></span></div>
+        <div class="row"><label>Department:</label> <span th:text="${employee.departmentName}"></span></div>
+        <div class="row"><label>Role:</label> <span th:text="${employee.role}"></span></div>
+        <div class="row"><label>Salary Period:</label> 
+            <span th:text="${salary.startDate}"></span> - <span th:text="${salary.endDate}"></span>
+        </div>
+    </div>
+    <div class="income">
+        <h3>Income</h3>
+        <div class="row"><label>Base Salary:</label> <span th:text="${salary.baseSalary}"></span></div>
+        <div class="row"><label>HRA:</label> <span th:text="${salary.hra}"></span></div>
+        <div class="row"><label>Medical Allowance:</label> <span th:text="${salary.medicalAllowance}"></span></div>
+        <div class="row"><label>Travel Allowance:</label> <span th:text="${salary.travelAllowance}"></span></div>
+    </div>
+    <div class="deductions">
+        <h3>Deductions</h3>
+        <div class="row"><label>PF Deduction:</label> <span th:text="${salary.pfDeduction}"></span></div>
+    </div>
+    <div class="total row">
+        <label>Net Salary:</label>
+        <span th:text="${salary.baseSalary + salary.hra + salary.medicalAllowance + salary.travelAllowance - salary.pfDeduction}"></span>
+    </div>
+    <br/>
+    <div class="row">
+        <label>Employee Signature:</label> ______________________________________
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <label>Employer Signature:</label> ______________________________________
+    </div>
+</div>
+
+<div class="dashboard-button">
+    <!-- Button to redirect to employee dashboard -->
+    <form th:action="@{/employees/dashboard/{employeeId}(employeeId=${id})}" method="get">
+        <!-- <input type="hidden" name="employeeId" th:value="${request.empId}"/> Pass the employee ID -->
+        <button type="submit">Go to Employee Dashboard</button>
+    </form>
+</div>
+</body>
+</html>

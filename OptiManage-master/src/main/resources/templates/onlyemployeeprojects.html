@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Projects</title>
+</head>
+<body>
+    <h1>Your Projects</h1>
+
+    <h2>Projects As Member</h2>
+    <table th:if="${projects.size() > 0}">
+        <thead>
+            <tr>
+                <th>Project ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="project : ${projects}">
+                <td th:text="${project.projId}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p th:if="${projects.size() == 0}">No projects here</p>
+
+    <h2>Projects You Lead</h2>
+    <table th:if="${leadProjects.size() > 0}">
+        <thead>
+            <tr>
+                <th>Project ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="leadProject : ${leadProjects}">
+                <td>
+                    <td th:text="${leadProject.projId}"></td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p th:if="${leadProjects.size() == 0}">No projects here</p>
+
+</body>
+</html>

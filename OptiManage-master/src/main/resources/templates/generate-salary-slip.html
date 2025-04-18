@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Generate Salary Slip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h2 {
+            color: #2e7d32;
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #2e7d32;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #1b5e20;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Generate Salary Slip for <span th:text="${employee.firstName} + ' ' + ${employee.lastName}"></span></h2>
+<form th:action="@{/hr/generate-salary-slip}" method="post">
+    <input type="hidden" name="empId" th:value="${employee.id}"/>
+    
+    <label>Working Days:</label>
+    <input type="number" name="workingDays" required/>
+    
+    <label>Absent Days:</label>
+    <input type="number" name="absentDays" required/>
+    
+    <button type="submit">Generate</button>
+</form>
+
+</body>
+</html>

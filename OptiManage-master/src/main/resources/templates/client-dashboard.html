@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Client Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f9f0; /* Light green background */
+            color: #333; /* Dark text color for readability */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2e7d32; /* Darker green for headings */
+        }
+
+        h2 {
+            color: #388e3c; /* Slightly lighter green for subheadings */
+            border-bottom: 2px solid #388e3c; /* Underline for subheadings */
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0;
+        }
+
+        li {
+            background-color: #e8f5e9; /* Light green for list items */
+            margin: 10px 0; /* Space between list items */
+            padding: 10px;
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        form {
+            background-color: #e8f5e9; /* Light green for form */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px; /* Space between label and input */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px; /* Space below inputs */
+            border: 1px solid #c8e6c9; /* Light green border */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        button {
+            background-color: #4caf50; /* Green button */
+            color: white; /* White text */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            input, button {
+                width: 100%; /* Full width on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, <span th:text="${client.firstName}">Client Name</span>!</h1>
+
+    <h2>Your Meetings</h2>
+    <ul>
+        <li th:each="meeting : ${meetings}">
+            Meeting on <span th:text="${meeting.meetingDate}"></span> at 
+            <span th:text="${meeting.meetingTime}"></span>
+            - Status: <span th:text="${meeting.meetingStatus}"></span>
+        </li>
+    </ul>
+
+    <h2>Schedule a Meeting</h2>
+    <form th:action="@{/clients/dashboard/{clientId}/scheduleMeeting(clientId=${client.clientId})}" method="post">
+        <label for="relationshipManagerId">Relationship Manager ID:</label>
+        <input type="text" name="relationshipManagerId" required>
+
+        <label for="meetingDate">Date:</label>
+        <input type="date" name="meetingDate" required>
+
+        <label for="meetingTime">Time:</label>
+        <input type="time" name="meetingTime" required>
+
+        <button type="submit">Schedule Meeting</button>
+    </form>
+</body>
+</html>

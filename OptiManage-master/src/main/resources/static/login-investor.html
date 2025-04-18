@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <h2>Employee Login</h2>
+    <form id="loginForm">
+
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" th:field="*{username}" required />
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" required />
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+    </form>
+    <div>
+        <p>Don't have an account? <a href="/register-investor">Register here</a></p>
+    </div>
+
+</body>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault(); 
+    const username = document.getElementById("username").value; 
+    const password = document.getElementById("password").value;
+
+    const userData = {
+        username: username, 
+        password: password
+    };
+
+    console.log("Sending login request with data:", userData);
+
+
+    axios.post('http://localhost:8080/login-investor', userData,{
+    headers: {
+        'Content-Type': 'application/json'
+    }}
+    )
+        .then(function (response) {
+            localStorage.setItem('token', response.data.token);
+            console.log(response);
+            console.log(response.data);  
+            console.log("ddd");
+            
+            if (response.status === 200) {
+                console.log("Login done. Valid Credentials.");
+                alert('Login done. Valid Credentials.');
+                
+                window.location.href = response.data.redirectUrl;
+            } else {
+                alert('Login failed. Invalid Credentials.');
+                console.log("error");
+            }
+        })
+        .catch(function (error) {
+            console.error('There was an error!', error);
+            alert('Login failed. Please try again later.');
+        });
+});
+
+</script>
+
+</html>

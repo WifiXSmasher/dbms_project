@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        h1 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .add-request-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .add-request-button:hover {
+            background-color: #388E3C;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 5px;
+        }
+        .table thead {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f4f4f9;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Leave Requests</h1>
+    </header>
+    <div class="container">
+        <!-- Button to add a new leave request -->
+        <a th:href="@{/leave/request/add}" class="add-request-button">Add New Leave Request</a>
+
+        <!-- Leave requests table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <!-- <th>Employee Id</th> -->
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="request : ${requests}">
+                    <!-- <td th:text="${request.empId}">Employee Id</td> -->
+                    <td th:text="${request.leaveType}">Leave Type</td>
+                    <td th:text="${request.startDate}">Start Date</td>
+                    <td th:text="${request.endDate}">End Date</td>
+                    <td th:text="${request.status}">Status</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="dashboard-button">
+            <!-- Button to redirect to employee dashboard -->
+            <form th:action="@{/emp-dashboard}" method="get">
+                <!-- <input type="hidden" name="employeeId" th:value="${request.empId}"/> Pass the employee ID -->
+                <button type="submit">Go to Employee Dashboard</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+<script src="src\main\resources\static\js\axiosConfig.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to get cookie value by name
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const token = getCookie('token'); // Change to 'token' for the cookie name
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                window.location.href = "/emp-login";
+                return;
+            }
+
+            // Create an Axios instance and set Authorization header
+            const axiosInstance = axios.create({
+                headers: {
+                    'Authorization':   `Bearer ${token}`
+                }
+            });
+
+            // Example of using axiosInstance for a secure request
+            axiosInstance.get('/emp-dashboard')
+                .then(response => {
+                    console.log("Dashboard data:", response.data);
+                    // Populate dashboard data
+                })
+                .catch(error => {
+                    console.error("Authorization error:", error);
+                    alert("Session expired or unauthorized. Please log in again.");
+                    window.location.href = "/emp-login";
+                });
+        });
+    </script>
+
+</html>

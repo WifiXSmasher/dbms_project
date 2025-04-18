@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Department Employees</title>
+    <style>
+        /* Simple styling for the list */
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
+        .container { max-width: 800px; margin: 20px auto; }
+        h1 { color: #333; }
+        .employee-list { list-style-type: none; padding: 0; }
+        .employee-item { padding: 10px; background-color: #fff; margin-bottom: 10px; border: 1px solid #ddd; }
+        .employee-item a { text-decoration: none; color: #4CAF50; font-weight: bold; }
+        .employee-item a:hover { color: #388E3C; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Department Employees</h1>
+        <ul class="employee-list">
+            <li th:each="employee : ${employees}" class="employee-item">
+                <!-- Display employee ID and name -->
+                <span> <span th:text="${employee.id}"></span>.</span>
+                <span> <span th:text="${employee.firstName}"></span></span>
+                
+                <!-- Performance and Promote links -->
+                <a th:href="@{/employee/{id}/performance(id=${employee.id})}" style="margin-left: 10px;">
+                    Performance
+                </a>
+                <a th:href="@{/employees/promote/{empid}(empid=${employee.id})}" style="margin-left: 10px;">
+                    Promote
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+</body>
+</html>

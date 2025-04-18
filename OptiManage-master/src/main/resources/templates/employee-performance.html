@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Performance</title>
+    <style>
+        /* Styling for the page and performance list */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .performance-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .performance-item {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #2e7d32;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .performance-item p {
+            margin: 6px 0;
+            color: #333;
+        }
+        .performance-item p strong {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Performance Reviews</h1>
+        <ul class="performance-list">
+            <li th:each="performance : ${performances}" class="performance-item">
+                <p><strong>Date:</strong> <span th:text="${performance.date}"></span></p>
+                <p><strong>Rating:</strong> <span th:text="${performance.rating}"></span></p>
+                <p><strong>Feedback:</strong> <span th:text="${performance.feedback}"></span></p>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

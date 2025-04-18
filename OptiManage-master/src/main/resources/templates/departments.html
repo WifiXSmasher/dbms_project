@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #2d6a4f; /* Green color */
+        }
+
+        a {
+            text-decoration: none;
+            color: #2d6a4f; /* Green color */
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #1d4f35; /* Darker Green */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #2d6a4f; /* Green background */
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #e9f5e0; /* Light green hover effect */
+        }
+
+        .actions a {
+            margin-right: 10px;
+            background-color: #2d6a4f; /* Green background */
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .actions a:hover {
+            background-color: #1d4f35; /* Darker green on hover */
+        }
+
+        .back-btn a {
+            background-color: #2d6a4f; /* Green background for back button */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn a:hover {
+            background-color: #1d4f35; /* Darker green on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Departments</h1>
+    <a href="/departments/add" style="background-color: #2d6a4f; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; transition: background-color 0.3s;">
+        Add New Department
+    </a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Establishment Date</th>
+                <th>Contact Detail</th>
+                <th>Email</th>
+                <th>Head of Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="department : ${departments}">
+                <tr>
+                    <td th:text="${department.deptId}"></td>
+                    <td th:text="${department.dname}"></td>
+                    <td th:text="${#dates.format(department.estDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${department.contactDetail}"></td>
+                    <td th:text="${department.email}"></td>
+                    <td th:text="${department.hodId}"></td>
+                    <td class="actions">
+                        <a th:href="@{/departments/edit/{id}(id=${department.deptId})}">Edit</a>
+                        <a th:href="@{/departments/delete/{id}(id=${department.deptId})}">Delete</a>
+                    </td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+    <div class="back-btn"><a href="/admin-dashboard">Back to dashboard</a></div>
+</body>
+
+</html>

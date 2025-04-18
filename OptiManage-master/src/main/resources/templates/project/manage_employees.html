@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Employees in Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+
+        .lead-text {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+
+    <script>
+        // Confirm before removing an employee
+        function confirmEmployeeRemoval(employeeId, isLead) {
+            let message = isLead ? "This employee is the current lead. Removing them will also remove them as lead. Continue?" :
+                                   "Are you sure you want to remove this employee from the project?";
+            if (confirm(message)) {
+                document.getElementById('remove-employee-form-' + employeeId).submit();
+            }
+        }
+
+        // Confirm before adding an employee
+        function confirmEmployeeAddition(employeeId) {
+            if (confirm("Are you sure you want to add this employee to the project?")) {
+                document.getElementById('add-employee-form-' + employeeId).submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Manage Employees for Project: <span th:text="${project.pname}"></span></h1>
+
+    <!-- Current Employees Section -->
+    <h2>Current Employees</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${currentEmployees}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.firstName}"></td>
+                <td th:text="${employee.lastName}"></td>
+                <td th:text="${employee.email}"></td>
+
+                <!-- Show 'Lead' label if this employee is the lead -->
+                <td th:if="${employee.id == project.leadBy}">
+                    <span class="lead-text">Lead</span>
+                </td>
+                <td th:if="${employee.id != project.leadBy}">
+                    Team Member
+                </td>
+
+                <!-- Action to remove employee (if lead, set leadBy to 0) -->
+                <td>
+                    <form th:id="'remove-employee-form-'+${employee.id}" th:action="@{/projects/remove_employee}" method="post">
+                        <input type="hidden" name="projectId" th:value="${project.projId}" />
+                        <input type="hidden" name="empId" th:value="${employee.id}" />
+                        <input type="hidden" name="isLead" th:value="${employee.id == project.leadBy ? 1 : 0}" />
+
+                        <button type="button" class="btn-delete"
+                                th:onclick="|confirmEmployeeRemoval(${employee.id}, ${employee.id == project.leadBy ? true : false})|">
+                            Remove
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Available Employees Section -->
+    <h2>Available Employees</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${availableEmployees}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.firstName}"></td>
+                <td th:text="${employee.lastName}"></td>
+                <td th:text="${employee.email}"></td>
+
+                <!-- Option to add employee -->
+                <td>
+                    <form th:id="'add-employee-form-' + ${employee.id}" th:action="@{/projects/add_employee}" method="post">
+                        <input type="hidden" name="projectId" th:value="${project.projId}" />
+                        <input type="hidden" name="empId" th:value="${employee.id}" />
+                        
+                        <button type="button" class="btn-add"
+                                th:onclick="|confirmEmployeeAddition(${employee.id})|">
+                            Add to Project
+                        </button>
+                    </form>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/projects}">Back to Projects List</a>
+</body>
+</html>

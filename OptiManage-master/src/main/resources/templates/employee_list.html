@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #2e7d32;
+        }
+        h3 {
+            color: #2e7d32;
+            margin-top: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e8f5e9;
+        }
+        a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #1b5e20;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 20px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Employee List</h2>
+
+<div th:each="entry : ${employeesByDepartment}">
+    <h3 th:text="${entry.key}">Department Name</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${entry.value}">
+                <td th:text="${employee.firstName + ' ' + employee.lastName}"></td>
+                <td>
+                    <a th:href="@{/hr/generate-salary-slip/{id}(id=${employee.id})}">Generate Salary Slip</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<a href="/emp-dashboard" class="back-link">Back to Dashboard</a>
+
+</body>
+</html>

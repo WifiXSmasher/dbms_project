@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Container for image and cards */
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Large image styling */
+        .large-image {
+            width: 80%;
+            max-width: 800px;
+            height: auto;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Flexbox container for cards */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Individual card styling */
+        .card {
+            background-color: white;
+            padding: 20px;
+            width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card button {
+            padding: 12px 18px;
+            background-color: #2e7d32; /* Green color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .card button:hover {
+            background-color: #388e3c; /* Darker green */
+        }
+
+        /* Link to logout */
+        .logout-link {
+            margin-top: 30px;
+            padding: 10px 15px;
+            background-color: #2e7d32;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .logout-link:hover {
+            background-color: #388e3c;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>BNK Management</h1>
+
+    <div class="content-container">
+        <!-- Large Image -->
+        <img src="images/emp.png" alt="Management System Image" class="large-image" />
+
+        <!-- Links in the form of cards -->
+        <div class="card-container">
+            <div class="card">
+                <a href="/employees">
+                    <button>Employees</button>
+                </a>
+            </div>
+            <div class="card">
+                <a href="/projects">
+                    <button>Projects</button>
+                </a>
+            </div>
+            <div class="card">
+                <a href="/investors">
+                    <button>Investors</button>
+                </a>
+            </div>
+            <div class="card">
+                <a href="/departments">
+                    <button>Departments</button>
+                </a>
+            </div>
+            <div class="card">
+                <a href="/investments">
+                    <button>Investments</button>
+                </a>
+            </div>
+            <div class="card">
+                <a href="/clients">
+                    <button>Clients</button>
+                </a>
+            </div>
+            <div class="card">
+                <a href="/salaries">
+                    <button>Salaries</button>
+                </a>
+            </div>
+            <div class="card">
+                <a href="/leave/request/all">
+                    <button>View All Leave Requests</button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Logout Link -->
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to get cookie value by name
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const token = getCookie('token'); // Change to 'token' for the cookie name
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                window.location.href = "/emp-login";
+                return;
+            }
+
+            // Create an Axios instance and set Authorization header
+            const axiosInstance = axios.create({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // Example of using axiosInstance for a secure request
+            axiosInstance.get('/admin-dashboard')
+                .then(response => {
+                    console.log("Dashboard data:", response.data);
+                    // Populate dashboard data
+                })
+                .catch(error => {
+                    console.error("Authorization error:", error);
+                    alert("Session expired or unauthorized. Please log in again.");
+                    window.location.href = "/emp-login";
+                });
+        });
+    </script>
+</body>
+
+</html>

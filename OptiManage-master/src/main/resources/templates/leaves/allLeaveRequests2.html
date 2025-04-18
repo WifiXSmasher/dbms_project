@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Leave Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f5e9; /* Light green background */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32; /* Dark green for the header */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #c8e6c9; /* Light green border */
+        }
+
+        th {
+            background-color: #a5d6a7; /* Light green header */
+            color: #fff; /* White text */
+        }
+
+        tr:hover {
+            background-color: #c8e6c9; /* Slightly darker green on hover */
+        }
+
+        select {
+            padding: 5px;
+            border: 1px solid #c8e6c9; /* Light green border for select */
+            border-radius: 5px;
+            background-color: #f9fbe7; /* Light background for select */
+        }
+
+        button {
+            background-color: #4caf50; /* Green button */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #388e3c; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>All Leave Requests</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Correctly iterate over each leave request -->
+            <tr th:each="request : ${requests}">
+                <td><a th:href="@{/profile}" th:text="${request.empId}"></a></td>
+                <td th:text="${request.leaveType}"></td> <!-- Use request.leaveType -->
+                <td th:text="${request.startDate}"></td> <!-- Use request.startDate -->
+                <td th:text="${request.endDate}"></td> <!-- Use request.endDate -->
+                <td th:text="${request.status}"></td> <!-- Use request.status -->
+                <td th:text="${request.reason}"></td> <!-- Use request.reason -->
+                <td>
+                    <!-- Form to update leave status -->
+                    <form th:action="@{'/leave/request/'+${request.empId} +'/'+ ${request.leaveType} + '/' + ${request.startDate}}" method="post">
+                        <input type="hidden" name="_method" value="PUT"/>
+                        <select name="status">
+                            <option value="Pending" th:selected="${request.status == 'Pending'}">Pending</option>
+                            <option value="Approved" th:selected="${request.status == 'Approved'}">Approved</option>
+                            <option value="Rejected" th:selected="${request.status == 'Rejected'}">Rejected</option>
+                        </select>
+                        <button type="submit">Update Status</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="dashboard-button">
+        <!-- Button to redirect to employee dashboard -->
+        <form th:action="@{/emp-dashboard}" method="get">
+            <!-- <input type="hidden" name="employeeId" th:value="${request.empId}"/> Pass the employee ID -->
+            <button type="submit">Go to Employee Dashboard</button>
+        </form>
+    </div>
+
+</body>
+<script src="src\main\resources\static\js\axiosConfig.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to get cookie value by name
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const token = getCookie('token'); // Change to 'token' for the cookie name
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                window.location.href = "/emp-login";
+                return;
+            }
+
+            // Create an Axios instance and set Authorization header
+            const axiosInstance = axios.create({
+                headers: {
+                    'Authorization':   `Bearer ${token}`
+                }
+            });
+
+            // Example of using axiosInstance for a secure request
+            axiosInstance.get('/emp-dashboard')
+                .then(response => {
+                    console.log("Dashboard data:", response.data);
+                    // Populate dashboard data
+                })
+                .catch(error => {
+                    console.error("Authorization error:", error);
+                    alert("Session expired or unauthorized. Please log in again.");
+                    window.location.href = "/emp-login";
+                });
+        });
+    </script>
+
+</html>
+

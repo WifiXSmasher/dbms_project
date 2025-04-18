@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Salary List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9; /* Light gray background */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            color: #2e7d32; /* Green color */
+            margin-bottom: 20px;
+        }
+
+        .add-salary-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #2e7d32; /* Green color */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .add-salary-btn:hover {
+            background-color: #388e3c; /* Darker green */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2e7d32; /* Green color */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f1f1f1; /* Light gray for even rows */
+        }
+
+        tr:hover {
+            background-color: #e0e0e0; /* Slightly darker gray on hover */
+        }
+
+        a {
+            color: #2e7d32; /* Green color for links */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #2e7d32;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Salary List</h1>
+    <a href="/salary/add" class="add-salary-btn">Add New Salary</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee ID</th>
+                <th>Base Salary</th>
+                <th>HRA</th>
+                <th>Medical Allowance</th>
+                <th>Travel Allowance</th>
+                <th>PF Deduction</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="salary : ${salaries}">
+                <td th:text="${salary.id}"></td>
+                <td th:text="${salary.empId}"></td>
+                <td th:text="${salary.baseSalary}"></td>
+                <td th:text="${salary.hra}"></td>
+                <td th:text="${salary.medicalAllowance}"></td>
+                <td th:text="${salary.travelAllowance}"></td>
+                <td th:text="${salary.pfDeduction}"></td>
+                <td th:text="${salary.startDate}"></td>
+                <td th:text="${salary.endDate}"></td>
+                <td>
+                    <a th:href="@{/salary/edit/{id}(id=${salary.id})}">Edit</a> |
+                    <a th:href="@{/salary/delete/{id}(id=${salary.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <div><a href="/admin-dashboard" class="back-link">Back to dashboard</a></div>
+</body>
+</html>
