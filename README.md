@@ -14,7 +14,6 @@
 - **Java 11+**
 - **Spring Boot**
 - **Spring Security (JWT-based)**
-- **Spring Data JPA / Hibernate**
 - **MySQL**
 - **Maven**
 - **REST APIs**
